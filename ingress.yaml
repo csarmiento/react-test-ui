@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: camilo
+  name: test-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing #Places the load balancer on public subnets
+    alb.ingress.kubernetes.io/target-type: ip #The Pod IPs should be used as the target IPs (rather than the node IPs as was the case with NLB in hte previous section)
+    alb.ingress.kubernetes.io/group.name: product-catalog # Groups multiple Ingress resources
+spec:
+  ingressClassName: alb #Defines which IngessClass that this Ingress is associated with. This specific Ingress Class is owned by  AWS Load Balancer Controller. Hence it will fulfill this Ingress.
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ui-demo
+            port:
+              number: 80
+
