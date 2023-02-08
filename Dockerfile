@@ -3,8 +3,6 @@ WORKDIR /usr/app
 COPY . /usr/app
 RUN yarn install --frozen-lockfile
 RUN yarn run build
-#RUN npm ci
-#RUN npm run build
 
 FROM --platform=linux/amd64 nginx:1.23.3-alpine
 EXPOSE 80
